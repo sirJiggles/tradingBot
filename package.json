@@ -1,0 +1,19 @@
+{
+  "name": "trading-bot",
+  "author": "Gareth Fuller",
+  "license": "Apache-2.0",
+  "description": "a little bot that does some trading for me on binance",
+  "private": true,
+  "scripts": {
+    "lint": "lerna run lint --parallel",
+    "bot": "cd packages/bot && yarn start"
+  },
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  }
+}

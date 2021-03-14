@@ -1,0 +1,28 @@
+{
+  "name": "@trading-bot/bot",
+  "version": "1.0.0",
+  "description": "A bot to trade for me",
+  "main": "dist/index.js",
+  "author": "Gareth Fuller",
+  "license": "Apache-2.0",
+  "private": false,
+  "scripts": {
+    "package": "rm -rf dist && yarn build && cp package.json dist/ && cd dist && npm install --production",
+    "build": "cp .env ./dist/.env && tsc -p .",
+    "start": "yarn build && yarn execute",
+    "execute": "node dist/index.js",
+    "lint": "eslint '**/*.{js,ts}' --fix"
+  },
+  "dependencies": {
+    "binance-api-node": "^0.10.33",
+    "dotenv": "^8.2.0",
+    "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {
+    "@trading-bot/eslint-config": "1.0.0",
+    "@types/node": "^14.14.6",
+    "@types/node-fetch": "2.5.8",
+    "eslint": "^7.12.1",
+    "typescript": "^4.0.5"
+  }
+}
