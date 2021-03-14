@@ -16,3 +16,9 @@ export type Config = {
   tankingPercentage: number
   peakingPercentage: number
 }
+
+export type Action = {
+  type: string
+  symbol: string
+  amount: number
+}

@@ -1,4 +1,4 @@
-import { peaking } from '../'
+import { peaking } from '../peaking'
 import { DataSet } from '../../types'
 
 describe('check if something is peaking', () => {

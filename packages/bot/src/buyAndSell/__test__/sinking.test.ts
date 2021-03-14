@@ -1,5 +1,5 @@
 import { DataSet } from '../../types'
-import { sinking } from '../'
+import { sinking } from '../sinking'
 
 describe('unit | sinking', () => {
   it('should be sinking if going down over threshold', () => {
