@@ -2,7 +2,13 @@ export type CoinStats = {
   [key: string]: number
 }
 
-export type DataSet = Array<{ time: number; data: CoinStats }>
+export type DataEntry = {
+  time: number
+  data: CoinStats
+  actedUpon?: boolean
+}
+
+export type DataSet = Array<DataEntry>
 
 export type Config = {
   threshold: number

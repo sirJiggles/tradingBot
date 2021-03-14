@@ -1,96 +1,56 @@
 import * as fs from 'fs'
-import { DataSet, Config } from './types'
-import { peaking, sinking, tanking, fakeData } from './utils'
+import { DataEntry, DataSet } from './types'
+import { buyAndSell } from './buyAndSell'
+import { fakeData } from './utils'
 
-// the main config for the program
-// these values control how it will decide to do things
-const config: Config = {
-  // percentage shift up or down to think about doing anything
-  threshold: 3,
-  // percentage loss over all data history
-  sinkingPercentage: 4,
-  // percentage between each pull of the data shift
-  peakingPercentage: 0.4,
-  // percentage between each pull of the data shift
-  tankingPercentage: -0.4,
-}
+const dataFilePath = `${__dirname}/data.json`
 
-const symbols = ['BTC', 'ETH', 'GSUS']
-
-let data: DataSet
-
-const getFakeData = () => {
+const generateFakeData = (symbols: Array<string>): DataSet => {
   // lets fake some data to test
   const speeds = [4, 3, 0.2]
   const directions = [0.1, -0.1, -0.1]
 
-  data = fakeData({
+  const data = fakeData({
     symbols,
     speeds,
     directions,
     amount: 90,
   })
+
+  // write it to file
+  fs.writeFileSync(dataFilePath, JSON.stringify(data))
+
+  return data
 }
 
 const run = async () => {
+  const symbols = ['BTC', 'ETH', 'GSUS']
   // for now we get some fake data, we will get old data + a new entry from the API
   // when we have it connected to binance
-  getFakeData()
+  // const data = generateFakeData(symbols)
 
-  // write the data to a file to check up on it later
-  fs.writeFileSync(`${__dirname}/data.json`, JSON.stringify(data))
+  // read the data out the file
+  const data = JSON.parse(fs.readFileSync(dataFilePath).toString()) as DataSet
 
-  // @todo maybe in reverse order?
-  data.forEach((dataPoint, dataPointIndex) => {
-    // check each coin to see if it is above or below
-    symbols.forEach((symbol) => {
-      const percentage = dataPoint.data[symbol]
+  // @TODO this will come from the API
+  const entry: DataEntry = {
+    time: 2000,
+    data: {
+      BTC: 23,
+      ETH: 33,
+      GSUS: 1,
+    },
+  }
 
-      if (percentage > config.threshold) {
-        // check if peaking fast, if we are peaking fast do not sell
-        if (peaking(data, symbol, dataPointIndex, config.peakingPercentage)) {
-          return
-        }
+  // add the new entry from the API to the data set
+  data.push(entry)
+  // remove the oldest entry from the dataset
+  data.shift()
 
-        console.log(JSON.stringify(dataPoint, null, 2))
+  const buyAndSellData = buyAndSell(data, symbols)
 
-        console.log(`SELL ${symbol}`)
-        let buyOrder = ``
-
-        // filter out the symbol that is gaining in value
-        const filteredSymbols = symbols.filter((s) => s !== symbol)
-
-        // go through all the other coins
-        filteredSymbols.forEach((symbolToBuy) => {
-          // if the one we are thinking of buying is tanking. DO NOT BUY IT
-          if (
-            tanking(data, symbolToBuy, dataPointIndex, config.tankingPercentage)
-          ) {
-            console.log(`not going to buy: ${symbolToBuy} she is tanking`)
-            return
-          }
-
-          // if the one we are thinking of buying has been going down a while
-          // also don't buy it (in our case if in all time we collect data by 4%)
-          if (sinking(data, symbolToBuy, config.sinkingPercentage)) {
-            console.log(`not going to buy: ${symbolToBuy} she is sinking`)
-            return
-          }
-
-          const percentageOfSymbolToBuy = dataPoint.data[symbolToBuy]
-          // if the one we intend to buy is less than the one above the threshold
-          // lets work out how much of it to buy up
-          if (percentageOfSymbolToBuy < percentage) {
-            const buyAmount = (percentage - percentageOfSymbolToBuy).toFixed(2)
-            buyOrder += `BUY ${symbolToBuy} @ ${buyAmount}% \n`
-          }
-        })
-        console.log(buyOrder)
-
-        process.exit(1)
-      }
-    })
-  })
+  // write the changes to file
+  fs.writeFileSync(dataFilePath, JSON.stringify(buyAndSellData))
 
   // connect to binance
   // connect()
