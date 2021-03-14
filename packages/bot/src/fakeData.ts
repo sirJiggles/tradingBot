@@ -1,26 +1,32 @@
 import { CoinStats } from './types'
 
-const shiftSpeeds = [5, 3]
-const shiftDirections = [0.1, -0.1]
-// assuming we run every two mins and keep 3 hours of data
-const amount = 90
+// the config for the kind of data you would like to create
+// speeds are the speed they change
+// directions are the speeds they change in that direction
+// symbols are the ones you would like to name and test
+type dataConfig = {
+  symbols: Array<string>
+  speeds: Array<number>
+  directions: Array<number>
+  amount: number
+}
 
 // a bunch of numbers that shift by a speed in a direction
-const numbers = (): Array<Array<number>> => {
+const numbers = (config: dataConfig): Array<Array<number>> => {
+  const { symbols, speeds, directions, amount } = config
   return [...Array(amount)].map((_, index) => {
-    return [
-      index * shiftSpeeds[0] * shiftDirections[0],
-      index * shiftSpeeds[1] * shiftDirections[1],
-    ]
+    return symbols.map((_, symbolIndex) => {
+      return index * speeds[symbolIndex] * directions[symbolIndex]
+    })
   })
 }
 
-const data = (
-  symbols: Array<string>,
+const fakeData = (
+  config: dataConfig,
 ): Array<{ time: number; data: CoinStats }> => {
-  return numbers().map((number, index) => {
+  return numbers(config).map((number, index) => {
     const itemData: CoinStats = {}
-    symbols.map((symbol, symbolIndex) => {
+    config.symbols.map((symbol, symbolIndex) => {
       itemData[symbol] = parseFloat(number[symbolIndex].toFixed(2))
     })
     return {
@@ -30,4 +36,4 @@ const data = (
   })
 }
 
-export { data }
+export { fakeData }
