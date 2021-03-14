@@ -47,10 +47,7 @@ const run = async () => {
   // remove the oldest entry from the dataset
   data.shift()
 
-  const buyAndSellData = buyAndSell(data, symbols)
-
-  // write the changes to file
-  fs.writeFileSync(dataFilePath, JSON.stringify(buyAndSellData))
+  const actions = buyAndSell(data, symbols)
 
   // connect to binance
   // connect()
