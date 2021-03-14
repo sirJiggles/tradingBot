@@ -1,14 +1,17 @@
-import { fakeData } from './utils/fakeData'
 import * as fs from 'fs'
 import { DataSet, Config } from './types'
-import { peaking, sinking, tanking } from './utils'
+import { peaking, sinking, tanking, fakeData } from './utils'
 
 // the main config for the program
 // these values control how it will decide to do things
 const config: Config = {
+  // percentage shift up or down to think about doing anything
   threshold: 3,
+  // percentage loss over all data history
   sinkingPercentage: 4,
+  // percentage between each pull of the data shift
   peakingPercentage: 0.4,
+  // percentage between each pull of the data shift
   tankingPercentage: -0.4,
 }
 
@@ -63,12 +66,14 @@ const run = async () => {
           if (
             tanking(data, symbolToBuy, dataPointIndex, config.tankingPercentage)
           ) {
+            console.log(`not going to buy: ${symbolToBuy} she is tanking`)
             return
           }
 
           // if the one we are thinking of buying has been going down a while
           // also don't buy it (in our case if in all time we collect data by 4%)
           if (sinking(data, symbolToBuy, config.sinkingPercentage)) {
+            console.log(`not going to buy: ${symbolToBuy} she is sinking`)
             return
           }
 
@@ -77,7 +82,7 @@ const run = async () => {
           // lets work out how much of it to buy up
           if (percentageOfSymbolToBuy < percentage) {
             const buyAmount = (percentage - percentageOfSymbolToBuy).toFixed(2)
-            buyOrder += `BUY ${symbolToBuy}: ${buyAmount}% \n`
+            buyOrder += `BUY ${symbolToBuy} @ ${buyAmount}% \n`
           }
         })
         console.log(buyOrder)
