@@ -1,10 +1,12 @@
-import { DataSet } from './types'
-
-// what speed of increase constitutes a peak?
-const peakSpeed = 0.4
+import { DataSet } from '../types'
 
 // util function to work out if something is peaking
-const peaking = (data: DataSet, symbol: string, index: number): boolean => {
+const peaking = (
+  data: DataSet,
+  symbol: string,
+  index: number,
+  peakSpeed: number,
+): boolean => {
   // how far back in time to check for peaking
   const pointsToCheck = 4
 

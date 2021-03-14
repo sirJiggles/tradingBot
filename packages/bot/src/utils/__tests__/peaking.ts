@@ -1,5 +1,5 @@
-import { peaking } from '../peaking'
-import { DataSet } from '../types'
+import { peaking } from '../'
+import { DataSet } from '../../types'
 
 describe('check if something is peaking', () => {
   it('should return true if the value is going up fast', () => {
@@ -12,7 +12,7 @@ describe('check if something is peaking', () => {
         },
       }
     })
-    expect(peaking(data, 'thing', 3)).toEqual(true)
+    expect(peaking(data, 'thing', 3, 0.4)).toEqual(true)
   })
 
   it('should return false if the increase is gradual', () => {
@@ -25,7 +25,7 @@ describe('check if something is peaking', () => {
         },
       }
     })
-    expect(peaking(data, 'thing', 3)).toEqual(false)
+    expect(peaking(data, 'thing', 3, 0.4)).toEqual(false)
   })
 
   it('should return false if the last item in the list is lower than the one before it', () => {
@@ -38,6 +38,6 @@ describe('check if something is peaking', () => {
         },
       }
     })
-    expect(peaking(data, 'thing', 3)).toEqual(false)
+    expect(peaking(data, 'thing', 3, 0.4)).toEqual(false)
   })
 })

@@ -1,10 +1,12 @@
-import { DataSet } from './types'
-
-// what speed of increase constitutes a tanking coin?
-const tankSpeed = -0.4
+import { DataSet } from '../types'
 
 // util function to work out if something is tanking
-const tanking = (data: DataSet, symbol: string, index: number): boolean => {
+const tanking = (
+  data: DataSet,
+  symbol: string,
+  index: number,
+  tankSpeed: number,
+): boolean => {
   // how far back in time to check for peaking
   const pointsToCheck = 4
 

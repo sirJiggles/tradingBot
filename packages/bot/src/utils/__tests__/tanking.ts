@@ -1,5 +1,5 @@
-import { tanking } from '../tanking'
-import { DataSet } from '../types'
+import { tanking } from '../'
+import { DataSet } from '../../types'
 
 describe('check if something is peaking', () => {
   it('should return true if the value is going down fast', () => {
@@ -12,7 +12,7 @@ describe('check if something is peaking', () => {
         },
       }
     })
-    expect(tanking(data, 'thing', 3)).toEqual(true)
+    expect(tanking(data, 'thing', 3, -0.4)).toEqual(true)
   })
 
   it('should return false if the decrease is gradual', () => {
@@ -25,7 +25,7 @@ describe('check if something is peaking', () => {
         },
       }
     })
-    expect(tanking(data, 'thing', 3)).toEqual(false)
+    expect(tanking(data, 'thing', 3, -0.4)).toEqual(false)
   })
 
   it('should return false if the last item in the list is higher than the one before it', () => {
@@ -38,6 +38,6 @@ describe('check if something is peaking', () => {
         },
       }
     })
-    expect(tanking(data, 'thing', 3)).toEqual(false)
+    expect(tanking(data, 'thing', 3, -0.4)).toEqual(false)
   })
 })

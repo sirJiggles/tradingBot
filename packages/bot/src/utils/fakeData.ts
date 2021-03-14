@@ -1,4 +1,4 @@
-import { CoinStats } from './types'
+import { CoinStats } from '../types'
 
 // the config for the kind of data you would like to create
 // speeds are the speed they change
