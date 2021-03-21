@@ -11,7 +11,7 @@ describe('unit | backtest | formatData', () => {
         high: '123',
         low: '345',
         symbol: 'coinOne',
-        tradecount: 123,
+        tradecount: '123',
         unix: '3434',
         open: '20.0',
       },
@@ -21,7 +21,7 @@ describe('unit | backtest | formatData', () => {
         high: '123',
         low: '345',
         symbol: 'coinOne',
-        tradecount: 123,
+        tradecount: '123',
         unix: '3434',
         open: '21.0',
       },
@@ -31,7 +31,7 @@ describe('unit | backtest | formatData', () => {
         high: '123',
         low: '345',
         symbol: 'coinOne',
-        tradecount: 123,
+        tradecount: '123',
         unix: '3434',
         open: '25.0',
       },
@@ -43,7 +43,7 @@ describe('unit | backtest | formatData', () => {
         high: '123',
         low: '345',
         symbol: 'coinTwo',
-        tradecount: 123,
+        tradecount: '123',
         unix: '3434',
         open: '10',
       },
@@ -53,7 +53,7 @@ describe('unit | backtest | formatData', () => {
         high: '123',
         low: '345',
         symbol: 'coinTwo',
-        tradecount: 123,
+        tradecount: '123',
         unix: '3434',
         open: '9',
       },
@@ -63,7 +63,7 @@ describe('unit | backtest | formatData', () => {
         high: '123',
         low: '345',
         symbol: 'coinTwo',
-        tradecount: 123,
+        tradecount: '123',
         unix: '3434',
         open: '8',
       },
@@ -73,13 +73,13 @@ describe('unit | backtest | formatData', () => {
     const data = formatData(['coinOne', 'coinTwo'], oldData)
 
     // check the changes in percent from coin one along the formatted history
-    expect(data[0].data['coinOne'].toFixed(2)).toEqual('0.00')
-    expect(data[1].data['coinOne'].toFixed(2)).toEqual('5.00')
-    expect(data[2].data['coinOne'].toFixed(2)).toEqual('19.05')
+    expect(data[0].data['coinOne']).toEqual(0.0)
+    expect(data[1].data['coinOne']).toEqual(5.0)
+    expect(data[2].data['coinOne']).toEqual(19.05)
 
     // check the changes in percent in coin two along the formatted history
-    expect(data[0].data['coinTwo'].toFixed(2)).toEqual('0.00')
-    expect(data[1].data['coinTwo'].toFixed(2)).toEqual('-10.00')
-    expect(data[2].data['coinTwo'].toFixed(2)).toEqual('-11.11')
+    expect(data[0].data['coinTwo']).toEqual(0.0)
+    expect(data[1].data['coinTwo']).toEqual(-10.0)
+    expect(data[2].data['coinTwo']).toEqual(-11.11)
   })
 })

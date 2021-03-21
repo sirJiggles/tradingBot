@@ -27,7 +27,7 @@ const formatData = (
       const diff = current - last
 
       // work out the percent change from last to now
-      entry.data[symbol] = (diff / last) * 100
+      entry.data[symbol] = parseFloat(((diff / last) * 100).toFixed(2))
     })
     convertedData.push(entry)
   }

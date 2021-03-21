@@ -4,4 +4,4 @@
 
 import { backtest } from './src/backtest'
 
-backtest(['BTC'])
+backtest(['BTC', 'ETH'])

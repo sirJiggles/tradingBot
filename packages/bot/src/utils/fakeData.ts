@@ -1,4 +1,4 @@
-import { CoinStats } from '../types'
+import { CoinStats, DataSet } from '../types'
 
 // the config for the kind of data you would like to create
 // speeds are the speed they change
@@ -21,9 +21,7 @@ const numbers = (config: dataConfig): Array<Array<number>> => {
   })
 }
 
-const fakeData = (
-  config: dataConfig,
-): Array<{ time: string; data: CoinStats }> => {
+const fakeData = (config: dataConfig): DataSet => {
   return numbers(config).map((number, index) => {
     const itemData: CoinStats = {}
     config.symbols.map((symbol, symbolIndex) => {

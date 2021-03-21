@@ -10,6 +10,11 @@ const tanking = (
   // how far back in time to check for peaking
   const pointsToCheck = 4
 
+  // return false if we cannot go that far back
+  if (!data[index - 4]) {
+    return false
+  }
+
   // if the last point is > than the point before it, we are going up again
   // so we are no longer tanking
   if (data[index].data[symbol] > data[index - 1].data[symbol]) {

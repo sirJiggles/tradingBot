@@ -34,7 +34,7 @@ const run = async () => {
 
   // @TODO this will come from the API
   const entry: DataEntry = {
-    time: 2000,
+    time: '2000',
     data: {
       BTC: 23,
       ETH: 33,

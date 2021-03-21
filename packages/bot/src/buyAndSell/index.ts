@@ -17,9 +17,13 @@ const config: Config = {
   tankingPercentage: -0.4,
 }
 
-const buyAndSell = (data: DataSet, symbols: Array<string>): Array<Action> => {
-  // the data point we are going to look at, the last one
-  const dataPointIndex = data.length - 1
+const buyAndSell = (
+  data: DataSet,
+  symbols: Array<string>,
+  distanceFromEnd = 1,
+): Array<Action> => {
+  // the data point we are going to look at, by default the last one
+  const dataPointIndex = data.length - distanceFromEnd
   const dataPoint = data[dataPointIndex]
 
   // go through all the coins we are working with
@@ -32,11 +36,15 @@ const buyAndSell = (data: DataSet, symbols: Array<string>): Array<Action> => {
 
     // is it above the threshold?
     if (percentage < config.threshold) {
+      console.log('less than threshold')
+      JSON.stringify(console.log(dataPoint.data), null, 2)
       return
     }
 
     // check if peaking fast, if we are peaking fast do not sell
     if (peaking(data, symbol, dataPointIndex, config.peakingPercentage)) {
+      console.log('she is peaking')
+      JSON.stringify(console.log(dataPoint.data), null, 2)
       return
     }
 
@@ -50,6 +58,8 @@ const buyAndSell = (data: DataSet, symbols: Array<string>): Array<Action> => {
       // if this coins percentage change is higher than the one
       // we want to buy then obv do not buy it
       if (percentageOfSymbolToBuy > percentage) {
+        console.log('> than percentage')
+        JSON.stringify(console.log(dataPoint.data), null, 2)
         return
       }
 
@@ -57,12 +67,16 @@ const buyAndSell = (data: DataSet, symbols: Array<string>): Array<Action> => {
       if (
         tanking(data, symbolToBuy, dataPointIndex, config.tankingPercentage)
       ) {
+        console.log('she is tanking')
+        JSON.stringify(console.log(dataPoint.data), null, 2)
         return
       }
 
       // if the one we are thinking of buying has been going down a while
       // also don't buy it (in our case if in all time we collect data by X%)
       if (sinking(data, symbolToBuy, config.sinkingPercentage)) {
+        console.log('she is sinking')
+        JSON.stringify(console.log(dataPoint.data), null, 2)
         return
       }
 
