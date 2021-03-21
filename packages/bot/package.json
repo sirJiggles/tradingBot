@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "binance-api-node": "^0.10.33",
+    "csv-parser": "^3.0.0",
     "dotenv": "^8.2.0",
     "node-fetch": "^2.6.1"
   },

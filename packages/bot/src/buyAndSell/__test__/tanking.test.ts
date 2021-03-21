@@ -6,7 +6,7 @@ describe('check if something is peaking', () => {
     const changes = [5, 3, 2, 1]
     const data: DataSet = changes.map((change, index) => {
       return {
-        time: index,
+        time: index.toString(),
         data: {
           thing: change,
         },
@@ -19,7 +19,7 @@ describe('check if something is peaking', () => {
     const changes = [1, 0.8, 0.6, 0.3]
     const data: DataSet = changes.map((change, index) => {
       return {
-        time: index,
+        time: index.toString(),
         data: {
           thing: change,
         },
@@ -32,7 +32,7 @@ describe('check if something is peaking', () => {
     const changes = [5, 4, 3, 4]
     const data: DataSet = changes.map((change, index) => {
       return {
-        time: index,
+        time: index.toString(),
         data: {
           thing: change,
         },

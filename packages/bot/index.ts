@@ -1,3 +1,7 @@
-import { run } from './src/program'
+// import { run } from './src/program'
 
-run()
+// run()
+
+import { backtest } from './src/backtest'
+
+backtest(['BTC'])

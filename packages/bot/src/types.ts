@@ -3,9 +3,8 @@ export type CoinStats = {
 }
 
 export type DataEntry = {
-  time: number
+  time: string
   data: CoinStats
-  actedUpon?: boolean
 }
 
 export type DataSet = Array<DataEntry>

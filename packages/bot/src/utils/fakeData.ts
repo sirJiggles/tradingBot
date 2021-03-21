@@ -23,14 +23,14 @@ const numbers = (config: dataConfig): Array<Array<number>> => {
 
 const fakeData = (
   config: dataConfig,
-): Array<{ time: number; data: CoinStats }> => {
+): Array<{ time: string; data: CoinStats }> => {
   return numbers(config).map((number, index) => {
     const itemData: CoinStats = {}
     config.symbols.map((symbol, symbolIndex) => {
       itemData[symbol] = parseFloat(number[symbolIndex].toFixed(2))
     })
     return {
-      time: index,
+      time: index.toString(),
       data: itemData,
     }
   })
