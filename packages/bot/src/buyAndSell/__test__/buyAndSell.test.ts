@@ -1,7 +1,21 @@
 import { fakeData } from '../../utils'
 import { buyAndSell } from '../index'
+import { Config } from '../../types'
 
 describe('unit | buy and sell', () => {
+  // the main config for the buy and sell functionality
+  // these values control how it will decide to do things
+  const config: Config = {
+    // percentage shift up or down to think about doing anything
+    threshold: 3,
+    // percentage loss over all data history
+    sinkingPercentage: 4,
+    // percentage between each pull of the data shift
+    peakingPercentage: 0.4,
+    // percentage between each pull of the data shift
+    tankingPercentage: -0.4,
+  }
+
   it('should not sell anything that is not above the threshold', () => {
     const symbols = ['g', 'd']
     const data = fakeData({
@@ -11,7 +25,7 @@ describe('unit | buy and sell', () => {
       symbols,
     })
 
-    const actions = buyAndSell(data, symbols)
+    const actions = buyAndSell(data, symbols, config)
 
     expect(actions.length).toEqual(0)
   })
@@ -25,7 +39,7 @@ describe('unit | buy and sell', () => {
       symbols,
     })
 
-    const actions = buyAndSell(data, symbols)
+    const actions = buyAndSell(data, symbols, config)
 
     expect(actions.length).toEqual(0)
   })
@@ -39,7 +53,7 @@ describe('unit | buy and sell', () => {
       symbols,
     })
 
-    const actions = buyAndSell(data, symbols)
+    const actions = buyAndSell(data, symbols, config)
 
     const buyActions = actions.filter((a) => a.type === 'buy')
     expect(buyActions.length).toEqual(0)
@@ -54,7 +68,7 @@ describe('unit | buy and sell', () => {
       symbols,
     })
 
-    const actions = buyAndSell(data, symbols)
+    const actions = buyAndSell(data, symbols, config)
 
     const buyActions = actions.filter((a) => a.type === 'buy')
     expect(buyActions.length).toEqual(0)
@@ -70,7 +84,7 @@ describe('unit | buy and sell', () => {
       symbols,
     })
 
-    const actions = buyAndSell(data, symbols)
+    const actions = buyAndSell(data, symbols, config)
 
     const buyActions = actions.filter((a) => a.type === 'buy')
     expect(buyActions.length).toEqual(1)
@@ -91,7 +105,7 @@ describe('unit | buy and sell', () => {
       symbols,
     })
 
-    const actions = buyAndSell(data, symbols)
+    const actions = buyAndSell(data, symbols, config)
 
     const buyActions = actions.filter((a) => a.type === 'buy')
     expect(buyActions.length).toEqual(2)

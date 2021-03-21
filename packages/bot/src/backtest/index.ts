@@ -2,7 +2,19 @@ import { formatData } from './formatData'
 import { importOldData } from './importOldData'
 import { buyAndSell } from '../buyAndSell'
 import * as fs from 'fs'
-import { Action } from '../types'
+import { Action, Config } from '../types'
+
+// the config for the backtest, this is what we pass to buy and sell
+const config: Config = {
+  // percentage shift up or down to think about doing anything
+  threshold: 0.01,
+  // percentage loss over all data history
+  sinkingPercentage: 4,
+  // percentage between each pull of the data shift
+  peakingPercentage: 0.4,
+  // percentage between each pull of the data shift
+  tankingPercentage: -0.4,
+}
 
 const backtest = async (symbols: Array<string>) => {
   const historicalData = await importOldData(symbols)
@@ -16,8 +28,10 @@ const backtest = async (symbols: Array<string>) => {
   const collectionOfActions: Array<Array<Action>> = []
   // now we have all the data in the format we want it let's do some tests
   for (let i = dataSet.length; i > 0; i--) {
-    console.log('instance')
-    collectionOfActions.push(buyAndSell(dataSet, symbols, i))
+    const actions = buyAndSell(dataSet, symbols, config, i)
+    if (actions.length > 0) {
+      collectionOfActions.push(actions)
+    }
   }
 
   console.log(collectionOfActions)

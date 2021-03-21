@@ -6,12 +6,10 @@ const peaking = (
   symbol: string,
   index: number,
   peakSpeed: number,
+  pointsToCheck = 3,
 ): boolean => {
-  // how far back in time to check for peaking
-  const pointsToCheck = 4
-
   // return false if we cannot go that far back
-  if (!data[index - 4]) {
+  if (!data[index - pointsToCheck]) {
     return false
   }
 

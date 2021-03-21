@@ -4,22 +4,10 @@ import { sinking } from './sinking'
 import { tanking } from './tanking'
 import { takeHighestSeller } from './takeHighestSeller'
 
-// the main config for the buy and sell functionality
-// these values control how it will decide to do things
-const config: Config = {
-  // percentage shift up or down to think about doing anything
-  threshold: 3,
-  // percentage loss over all data history
-  sinkingPercentage: 4,
-  // percentage between each pull of the data shift
-  peakingPercentage: 0.4,
-  // percentage between each pull of the data shift
-  tankingPercentage: -0.4,
-}
-
 const buyAndSell = (
   data: DataSet,
   symbols: Array<string>,
+  config: Config,
   distanceFromEnd = 1,
 ): Array<Action> => {
   // the data point we are going to look at, by default the last one
@@ -36,15 +24,15 @@ const buyAndSell = (
 
     // is it above the threshold?
     if (percentage < config.threshold) {
-      console.log('less than threshold')
-      JSON.stringify(console.log(dataPoint.data), null, 2)
+      // console.log('less than threshold')
+      // JSON.stringify(console.log(dataPoint.data), null, 2)
       return
     }
 
     // check if peaking fast, if we are peaking fast do not sell
     if (peaking(data, symbol, dataPointIndex, config.peakingPercentage)) {
-      console.log('she is peaking')
-      JSON.stringify(console.log(dataPoint.data), null, 2)
+      // console.log('she is peaking')
+      // JSON.stringify(console.log(dataPoint.data), null, 2)
       return
     }
 
@@ -58,8 +46,8 @@ const buyAndSell = (
       // if this coins percentage change is higher than the one
       // we want to buy then obv do not buy it
       if (percentageOfSymbolToBuy > percentage) {
-        console.log('> than percentage')
-        JSON.stringify(console.log(dataPoint.data), null, 2)
+        // console.log('> than percentage')
+        // JSON.stringify(console.log(dataPoint.data), null, 2)
         return
       }
 
@@ -67,16 +55,16 @@ const buyAndSell = (
       if (
         tanking(data, symbolToBuy, dataPointIndex, config.tankingPercentage)
       ) {
-        console.log('she is tanking')
-        JSON.stringify(console.log(dataPoint.data), null, 2)
+        // console.log('she is tanking')
+        // JSON.stringify(console.log(dataPoint.data), null, 2)
         return
       }
 
       // if the one we are thinking of buying has been going down a while
       // also don't buy it (in our case if in all time we collect data by X%)
       if (sinking(data, symbolToBuy, config.sinkingPercentage)) {
-        console.log('she is sinking')
-        JSON.stringify(console.log(dataPoint.data), null, 2)
+        // console.log('she is sinking')
+        // JSON.stringify(console.log(dataPoint.data), null, 2)
         return
       }
 
@@ -99,7 +87,9 @@ const buyAndSell = (
     // we return the array of actions for this symbol, we will check after if
     // there are any other actions that look better than this set. if there are
     // we will favor those instead!
-    actions.push(symbolActions)
+    if (symbolActions.length) {
+      actions.push(symbolActions)
+    }
   })
 
   // work out which set of actions to take as there may be more than one
