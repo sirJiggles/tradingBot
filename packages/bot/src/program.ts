@@ -1,5 +1,5 @@
 import * as fs from 'fs'
-import { DataEntry, DataSet } from './types'
+import { DataEntry, DataSet, Config } from './types'
 import { buyAndSell } from './buyAndSell'
 import { fakeData } from './utils'
 
@@ -23,6 +23,18 @@ const generateFakeData = (symbols: Array<string>): DataSet => {
   return data
 }
 
+// the config for the backtest, this is what we pass to buy and sell
+const config: Config = {
+  // percentage shift up or down to think about doing anything
+  threshold: 0.02,
+  // percentage loss over all data history
+  sinkingPercentage: 4,
+  // percentage between each pull of the data shift
+  peakingPercentage: 0.4,
+  // percentage between each pull of the data shift
+  tankingPercentage: -0.4,
+}
+
 const run = async () => {
   const symbols = ['BTC', 'ETH', 'GSUS']
   // for now we get some fake data, we will get old data + a new entry from the API
@@ -33,21 +45,21 @@ const run = async () => {
   const data = JSON.parse(fs.readFileSync(dataFilePath).toString()) as DataSet
 
   // @TODO this will come from the API
-  const entry: DataEntry = {
-    time: '2000',
-    data: {
-      BTC: 23,
-      ETH: 33,
-      GSUS: 1,
-    },
-  }
+  // const entry: DataEntry = {
+  //   time: '2000',
+  //   data: {
+  //     BTC: 23,
+  //     ETH: 33,
+  //     GSUS: 1,
+  //   },
+  // }
 
   // add the new entry from the API to the data set
   data.push(entry)
   // remove the oldest entry from the dataset
   data.shift()
 
-  const actions = buyAndSell(data, symbols)
+  const actions = buyAndSell(data, symbols, config)
 
   // connect to binance
   // connect()

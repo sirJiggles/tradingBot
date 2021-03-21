@@ -25,7 +25,14 @@ const fakeData = (config: dataConfig): DataSet => {
   return numbers(config).map((number, index) => {
     const itemData: CoinStats = {}
     config.symbols.map((symbol, symbolIndex) => {
-      itemData[symbol] = parseFloat(number[symbolIndex].toFixed(2))
+      itemData[symbol] = {
+        percentChange: parseFloat(number[symbolIndex].toFixed(2)),
+        // @TODO we need to do something better here maybe
+        // maybe not, will circle back to her if needed
+        open: 12,
+        value: 12,
+        valueUSD: 34,
+      }
     })
     return {
       time: index.toString(),

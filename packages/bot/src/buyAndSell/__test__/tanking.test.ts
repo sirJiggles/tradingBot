@@ -8,7 +8,7 @@ describe('check if something is peaking', () => {
       return {
         time: index.toString(),
         data: {
-          thing: change,
+          thing: { percentChange: change, valueUSD: 1, value: 1, open: 1 },
         },
       }
     })
@@ -21,7 +21,7 @@ describe('check if something is peaking', () => {
       return {
         time: index.toString(),
         data: {
-          thing: change,
+          thing: { percentChange: change, valueUSD: 1, value: 1, open: 1 },
         },
       }
     })
@@ -34,7 +34,7 @@ describe('check if something is peaking', () => {
       return {
         time: index.toString(),
         data: {
-          thing: change,
+          thing: { percentChange: change, valueUSD: 1, value: 1, open: 1 },
         },
       }
     })

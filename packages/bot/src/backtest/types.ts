@@ -7,4 +7,6 @@ export type HistoricalData = {
   low: string
   close: string
   tradecount: string
+  volume: string
+  volumeUSD: string
 }

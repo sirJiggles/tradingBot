@@ -8,8 +8,8 @@ const sinking = (
   sinkThreshold: number,
 ): boolean => {
   // if the first point is lower than the latest point past the threshold she is sinking
-  const first = data[0].data[symbol]
-  const last = data[data.length - 1].data[symbol]
+  const first = data[0].data[symbol].percentChange
+  const last = data[data.length - 1].data[symbol].percentChange
   const diff = first - last
   // if it is going down by a diff greater than the threshold
   return last < first && diff > sinkThreshold

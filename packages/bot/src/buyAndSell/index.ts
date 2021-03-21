@@ -19,7 +19,7 @@ const buyAndSell = (
 
   symbols.forEach((symbol) => {
     // what is the percentage of the coin we are looking at?
-    const percentage = dataPoint.data[symbol]
+    const percentage = dataPoint.data[symbol].percentChange
     const symbolActions: Array<Action> = []
 
     // is it above the threshold?
@@ -41,7 +41,7 @@ const buyAndSell = (
 
     // go through all the other coins
     filteredSymbols.forEach((symbolToBuy) => {
-      const percentageOfSymbolToBuy = dataPoint.data[symbolToBuy]
+      const percentageOfSymbolToBuy = dataPoint.data[symbolToBuy].percentChange
 
       // if this coins percentage change is higher than the one
       // we want to buy then obv do not buy it
@@ -67,6 +67,8 @@ const buyAndSell = (
         // JSON.stringify(console.log(dataPoint.data), null, 2)
         return
       }
+
+      // calculate the amount to buy in usd
 
       symbolActions.push({
         type: 'buy',

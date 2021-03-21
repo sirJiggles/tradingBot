@@ -15,7 +15,10 @@ const tanking = (
 
   // if the last point is > than the point before it, we are going up again
   // so we are no longer tanking
-  if (data[index].data[symbol] > data[index - 1].data[symbol]) {
+  if (
+    data[index].data[symbol].percentChange >
+    data[index - 1].data[symbol].percentChange
+  ) {
     return false
   }
 
@@ -26,7 +29,7 @@ const tanking = (
 
   const diffs = lastXDataPoints.map((point, index) => {
     if (lastXDataPoints[index + 1]) {
-      return point - lastXDataPoints[index + 1]
+      return point.percentChange - lastXDataPoints[index + 1].percentChange
     }
     return 0
   })
